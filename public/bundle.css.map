@@ -1,0 +1,14 @@
+{
+  "version": 3,
+  "file": "bundle.css",
+  "sources": [
+    "..\\src\\App.svelte",
+    "..\\src\\components\\TrainingDay.svelte"
+  ],
+  "sourcesContent": [
+    "<script>\n  import TrainingDay from \"./components/TrainingDay.svelte\";\n  export let name;\n</script>\n\n<style>\n  h1 {\n    color: purple;\n  }\n</style>\n\n<h1>{name}</h1>\n<TrainingDay/>\n",
+    "<script>\n  import TrainingDayDetails from \"./TrainingDayDetails.svelte\";\n  import TrainingWeekSummary from \"./TrainingWeekSummary.svelte\";\n\n  const nbOfDays = [\n    { id: 1, text: \"One day\", value: [1] },\n    { id: 2, text: \"Two days\", value: [1, 2] },\n    { id: 3, text: \"Three days\", value: [1, 2, 3] },\n    { id: 4, text: \"Four days\", value: [1, 2, 3, 4] },\n    { id: 5, text: \"Five days\", value: [1, 2, 3, 4, 5] },\n    { id: 6, text: \"Six days\", value: [1, 2, 3, 4, 5, 6] },\n    { id: 7, text: \"Seven days\", value: [1, 2, 3, 4, 5, 6, 7] }\n  ];\n\n  let nbDaysTrainingPerWeek;\n\n  let summary = [];\n  let isSummaryReady = false;\n\n  function handleSubmit(event) {\n    console.log(\"handleSubmit\");\n  }\n\n  function handleNewExercise(event) {\n    console.log(\"on:add-exercise\", event.detail);\n    summary = [...summary, event.detail];\n    isSummaryReady = false;\n  }\n\n  function generateSummary() {\n    isSummaryReady = true;\n  }\n</script>\n\n<style>\n  .all-days {\n    border: 2px solid purple;\n    margin: 5px;\n  }\n  .training-day-details {\n    border: 2px solid green;\n    margin: 5px;\n  }\n</style>\n\n<div>\n  <form on:submit|preventDefault={handleSubmit}>\n    <select bind:value={nbDaysTrainingPerWeek}>\n      {#each nbOfDays as day (day.id)}\n        <option value={day}> {day.text} per week</option>\n      {/each}\n    </select>\n  </form>\n   {JSON.stringify(nbDaysTrainingPerWeek)}\n</div>\n\n{#if nbDaysTrainingPerWeek}\n  <div class=\"all-days\">\n    {#each nbDaysTrainingPerWeek.value as dayNumber, i}\n      <div class=\"training-day-details\">\n        <TrainingDayDetails title={`day ${++i}`} on:add-exercise={handleNewExercise} />\n      </div>\n    {/each}\n  </div>\n  <button on:click={generateSummary}>generate summary</button>\n{/if}\n{#if isSummaryReady}\n  <TrainingWeekSummary summary={summary} days={nbDaysTrainingPerWeek.value.length} />\n{/if}\n"
+  ],
+  "names": [],
+  "mappings": "AAME,EAAE,eAAC,CAAC,AACF,KAAK,CAAE,MAAM,AACf,CAAC;AC2BD,SAAS,cAAC,CAAC,AACT,MAAM,CAAE,GAAG,CAAC,KAAK,CAAC,MAAM,CACxB,MAAM,CAAE,GAAG,AACb,CAAC,AACD,qBAAqB,cAAC,CAAC,AACrB,MAAM,CAAE,GAAG,CAAC,KAAK,CAAC,KAAK,CACvB,MAAM,CAAE,GAAG,AACb,CAAC"
+}
